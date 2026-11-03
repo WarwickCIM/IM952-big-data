@@ -1,11 +1,11 @@
 ---
 title: "IM952 - Big Data Research: Hype or Revolution?"
 author:
-    - name: "Carlos Cámara"
-      url: http://carloscamara.es/en
-      affiliation: University of Warwick (CIM)
-      affiliation-url: http://warwick.ac.uk/cim
-      orcid: 0000-0002-9378-0549
+  - name: "Carlos Cámara"
+    url: http://carloscamara.es/en
+    affiliation: University of Warwick (CIM)
+    affiliation-url: http://warwick.ac.uk/cim
+    orcid: 0000-0002-9378-0549
 ---
 
 This repository contains the lab materials for [IM952: Big Data Research: Hype or Revolution?](https://warwick.ac.uk/fac/cross_fac/cim/apply-to-study/cross-disciplinary-postgraduate-modules/qs906-big-data-hype-or-revolution/), taught at the [Centre for Interdisciplinary Methodologies](https://warwick.ac.uk/fac/cross_fac/cim/) at the University of Warwick.
@@ -22,11 +22,11 @@ In the next three lab sessions, we will be replicating an ongoing research proje
 
 ## Schedule
 
-| Schedule | Session           |
-|----------|-------------------|
-| Week 5   | Data Manipulation |
-| Week 7   |                   |
-| Week 9   |                   |
+| Schedule | Session                                                |
+|----------|--------------------------------------------------------|
+| Week 5   | [Interrogating data locally](content/week_5/index.qmd) |
+| Week 7   | Using APIs to interrogate data                         |
+| Week 9   | Querying databases                                     |
 
 ## Teaching Staff
 

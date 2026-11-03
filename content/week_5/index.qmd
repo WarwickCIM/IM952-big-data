@@ -1,18 +1,39 @@
 ---
-title: "Data"
+title: "1. Interrogating data locally"
+format: 
+  live-html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    css: /styles.css
+webr:
+  render-df: reactable
+  packages:
+    - dplyr
+    - tidyr
+resources:
+  - data
+engine: knitr
 bibliography: references.bib
+reference-location: margin
+citation-location: margin
 ---
 
-In this week, you will be using your laptops to work with a relatively big research dataset [@cámara-menoyo2026] to answer actual research questions that arose from a research project.
+{{< include ../../_extensions/r-wasm/live/_knitr.qmd >}}
+
+{{< include ../../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+In this week, you will be using your laptops to work with a relatively big research dataset to answer actual research questions that arose from a research project.
 
 ## Session's goals
 
 1.  Familiarise with the dataset (and the process it represents)
-2.  learn tidyverse's syntax for frequent data manipulations:
+2.  learn [tidyverse](https://tidyverse.org/)'s syntax for frequent data manipulations:
     1.  `filter()` to subset rows matching some conditions
     2.  `select()`, to subset columns (by name or position)
     3.  `group()` and `summarise()` to compute summaries based on some criteria
-    4.  use join_by() to combine datasets
+    4.  `join_by()` to combine datasets
 3.  learn when to apply these methods to address research questions
 
 ## Slides
@@ -25,7 +46,7 @@ In this week, you will be using your laptops to work with a relatively big resea
 
 ## The data
 
-The data consists of two \`csv\` files:
+The data consists of two `csv` files:
 
 1.  `proposals.csv`: containing all Approved, Rejected and Proposed tagging proposals from the [OSM Wiki](https://wiki.openstreetmap.org), as well as their associated metadata.
 
@@ -40,149 +61,369 @@ Both files were generated using a dedicated R-package called [`{OSMproposals}`](
 2.  These datasets are part of an ongoing research. **Please, do not share them beyond the classroom unless with explicit permission from their authors.**
 :::
 
-```{r setup}
-#| echo: false
-library(knitr)
-```
-
 ### Loading data
 
-The data is provided by you in the `data/` folder. We'll load the two datasets and assign them, respectively, to the variables `proposals` and `proposals_votes`:
+The data is provided by you in a folder `data/raw/`. It is a good practice to separate raw data (e.g. extracted from a package, survey...) from final data derived from code calculations. Final data can always be regenerated programmatically, whereas raw data can't.
 
-```{r data-load}
+```{webr urls}
 #| warning: false
-
-# Load dependencies
+#| edit: false
+#| rownumber: true
 library(dplyr)
 
-path_proposals <- "../../data/raw/proposals.csv"
-path_votes <- "../../data/raw/proposals_votes.csv"
-
-proposals <- read.csv(path_proposals) 
-proposals_votes <- read.csv(path_votes)
+# We store paths in a variable.
+path_proposals <- "data/raw/proposals.csv"
+path_votes <- "data/raw/proposals_votes.csv"
 
 ```
 
-### Exploring data
+Load the two datasets and assign them, respectively, to the variables `proposals` and `votes`.
 
-Some questions we may want to immediately answer to familiarise with the datasets are:
-
-- How big are these datasets?
-
-- What do they contain?
-
-```{r}
-#| column: page
-#| warning: false
-
-# See first 5 rows
-head(proposals, 5)
-
-# See last 5 rows
-tail(proposals_votes, 5)
+```{webr}
+#| exercise: ex_load_data
+proposals <- read.csv(______)
+______ <- read.csv(______)
 ```
 
-```{r}
-summary(proposals)
-```
-
-A sense of the structure
-
-::: panel-tabset
-## Base R
-
-```{r}
-str(proposals)
-
-str(proposals_votes)
-```
-
-## Tidyverse
-
-`dplyr`\` offers the function `glimpse`\`:
-
-```{r}
-glimpse(proposals)
-```
-:::
-
-```         
-```
-
-Another approach:
-
-```{r}
-skimr::skim(proposals)
+```{webr}
+#| echo: false
+proposals <- read.csv(path_proposals) |> 
+  as_tibble()
+proposals_votes <- read.csv(path_votes) |> 
+  as_tibble()
 ```
 
 ::: callout-caution
-## Is this big data?
+#### Questions about the data
+
+1.  How was the data sampled?
 :::
 
-## Descriptive statistics
+### Initial exploration
 
-What's the outcome
+It is good practice to do some initial exploration to familiarise with our data. Some questions we may want to immediately answer are:
 
-```{r}
-proposals |> 
-  count(status_raw, sort = TRUE)
+1.  How big are these datasets?
+2.  What do they contain?
+3.  How complete each variable are? (i.e., missing data)
 
-summary(as.factor(proposals$status_raw))
+We can explore the first rows using `head()`, or, conversely, use `tail()` to see the last rows.
+
+```{webr}
+# See first 5 rows
+head(proposals, 5)
 ```
 
-## How many languages are used?
+::: {.callout-caution collapse="true"}
+#### QUESTION: Why would we need to use one or the other (or both)?
 
-```{r}
+```{webr}
+#| exercise: ex_tail
 
-proposals |> 
-  count(language)
+# See last 5 rows
+tail(______, ______)
+```
+:::
 
+Alternative, `dplyr` provides an interesting function `gplimpse` to describe the dataframes:
+
+``` webr
+# We can better see the name of the columns and their types using glimpse()
+glimpse(proposals)
 ```
 
-## How long does it take to finish a proposal?
+However, for large datasets like these, it would probably be better to see explore them interactively within RStudio or Positron's GUI by running:
 
-```{r}
+``` r
+View(proposals)
+```
 
-test <- proposals |> 
-  select(fullurl, status_simple, draft_started, rfc_start, vote_start, vote_end) |> 
-  filter(status_simple == "Completed") |> 
+::: {.callout-warning collapse="true"}
+#### Did you notice something wrong with the data?
+
+The column `draft_started` contains dates, but the column type is a character. This can be an issue if we want to make computations (like we are going to do in the next section), so we will need to fix this.
+
+This is not the only problematic column. Can you find any other changes?
+:::
+
+### Fixing data
+
+To fix the problem we detected, we need to change `draft_started` column type to a date, and we will be using `mutate()` to do so.
+
+```{webr}
+#| exercise: ex_to_date
+proposals <- mutate(proposals, draft_started = as.Date(______))
+
+# Check what we did
+glimpse(proposals)
+```
+
+::: callout-tip
+Note that this syntax would be equivalent to base R's syntax:
+
+``` r
+proposals$draft_started <- as.Date(proposals$draft_started)
+```
+
+At this moment tidyverse syntax may seem a little bit confusing and not very useful, but maybe the next bits can change our minds.
+:::
+
+```{webr}
+# We can change multiple columns with mutate
+proposals <- mutate(
+  proposals, 
+  draft_started = as.Date(draft_started),
+  rfc_start = as.Date(rfc_start),
+  vote_start = as.Date(vote_start),
+  vote_end = as.Date(vote_end)
+)
+
+glimpse(proposals)
+```
+
+But actually, it's more common to write this code using the **pipe operator**[^1] `|>`:
+
+[^1]: This operator allows for chaining multiple operations together, streamlining code.\
+    The pipe operator (`|>`) takes the value of its left-hand side to the first argument of the function on its right-hand side. This enables a natural and readable way of chaining multiple functions together, reducing the need for intermediate variables and improving code clarity.
+
+    ```{r}
+    # Nested, reads inside-out
+    round(mean(log(c(10, 100, 1000))), 2)
+
+    # Piped, reads left to right
+    c(10, 100, 1000) |> log() |> mean() |> round(2)
+    ```
+
+```{webr}
+# This is equivalent:
+proposals <- proposals |> 
   mutate(
     draft_started = as.Date(draft_started),
-    vote_end = as.Date(vote_end),
-    total = vote_end - draft_started
-  ) |> 
-  # Remove negative values
-  filter(total > 0)
-
-
-head(test)
-
-summary(test$total)
-
-hist(as.numeric(test$total))
-
-hist(as.numeric(test$total), breaks = 100, xlim = c(0, 1000))
+    rfc_start = as.Date(rfc_start),
+    vote_start = as.Date(vote_start),
+    vote_end = as.Date(vote_end)
+  )
+  
+glimpse(proposals)
 ```
 
-Are there any other metrics to quantify labour needed?
+::: callout-important
+Bear with me: we will see why this syntax using the pipe operator `|>` is very convenient.
+:::
 
-## Further questions
+## Answering questions through data
 
-- Which are the most controversial proposals?
+### How diverse are the proposals?
 
-- Are there different patterns based on the provided classification?
+On week 5 [@uprichard2026], we saw the importance of measurments and how deciding what and how to measure is anything but trivial. There are many ways to define diversity. In this case, we will use the language in which the proposals are written as a proxy for diversity.
 
-- Which variables would you use to create your own classification for the proposals? Did you spot any differences between groups?
+We are going to use dplyr's `count()` to count the number of different languages used.
 
-## Combining datasets
+```{webr}
+proposals_lang <- proposals |> 
+  count(language)
 
-```{r}
+proposals_lang
+```
 
-votes_count <- proposals_votes |> 
+`count()` conveniently can sort the values by number of uses:
+
+```{webr}
+proposals_lang <- proposals |> 
+  count(language, sort = TRUE)
+
+proposals_lang
+```
+
+::: callout-caution
+#### QUESTION: what does that information tell us? How is it related to diversity?
+:::
+
+### How much labour is required to make a proposal?
+
+Again, there are multiple ways to define labour. One way could be to count **time spent since their initial draft until the end of the voting process**.
+
+::: callout-important
+Only a subset of proposals ever get to get voted, so we are going to use `filter()` to **subset** those proposals whose status is either `Approved` or `Rejected` and only `select()` the columns that are needed.
+:::
+
+Here, we will be using `select()` to subset **columns**:
+
+```{webr}
+# Let's subset only the columns that are needed
+time_spent_completed <- proposals |> 
+  select(title, status_raw, draft_started, vote_end)
+
+
+glimpse(time_spent_completed)
+
+```
+
+And now, let's use `filter()` to subset **rows**:
+
+```{webr}
+# Let's subset only the rows that are needed
+time_spent_completed <- time_spent_completed |> 
+  filter(status_raw %in% c("Approved", "Rejected"))
+
+glimpse(time_spent_completed)
+```
+
+```{webr}
+
+head(time_spent_completed)
+```
+
+And now, we are going to compute the amount of time spent. We will be using `mutate()` to create a new variable called `time_spent` which is the time difference between the proposal was voted (finished) and drafted (started).
+
+```{webr}
+time_spent_completed <- time_spent_completed |> 
+  mutate(time_spent = vote_end - draft_started)
+  
+time_spent_completed
+```
+
+::: callout-tip
+Remember when we spoke about the pipe operator `|>` ? We could pipe those two verbs in a single expression!
+
+```{webr}
+# Pipe multiple verbs into a single expression:
+time_spent_completed_piped <- proposals |> 
+  select(title, status_raw, draft_started, vote_end) |> 
+  filter(status_raw %in% c("Approved", "Rejected")) |> 
+  mutate(time_spent = vote_end - draft_started)
+
+# Let's see if these two dataframes are identical:
+all.equal(time_spent_completed, time_spent_completed_piped)
+```
+:::
+
+This new column `time_spent` says how much time each proposal took, in days[^2]. We would need to have some nice summary statistics to have a good overview of the process.
+
+[^2]: Can you edit the code in the cell above to check `time_spent` data type? Is this what you would have expected?
+
+```{webr}
+summary(time_spent_completed$time_spent)
+```
+
+::: callout-warning
+We have some results that are either missing (`NA`) or negative values. This is because either the `draft_started` or `vote_end` values are missing. We should get rid of them to before proceeding.
+:::
+
+But what if we wanted to see if there are differences between *approved* and *rejected* proposals? We will use **group_by()** to group by a variable and **summarise()**. to create new summary columns using some statistical functions:
+
+```{webr}
+time_spent_completed_summaries <- time_spent_completed |> 
+  filter(time_spent > 0) |> 
+  group_by(status_raw) |> 
+  summarise(
+    min = min(time_spent),
+    first_q = quantile(time_spent, probs = 0.25),
+    median = median(time_spent),
+    mean = mean(time_spent),
+    third_q = quantile(time_spent, probs = 0.75),
+    max = max(time_spent)
+  )
+
+# Do we spot differences between these two groups?
+time_spent_completed_summaries
+```
+
+::: callout-caution
+#### Your turn
+
+Can you think of another variable we could use for measuring the labour involved? Could you do a similar process with this new variable?
+:::
+
+### How many votes did each proposal receive?
+
+Votes are stored in a separate dataset `proposals_votes`, so let's do some initial exploration
+
+```{webr}
+head(proposals_votes)
+```
+
+::: callout-important
+#### Wide vs long data[^3]
+
+`proposals_votes` is a **long dataset** (as opposed to a wide one, like the previous one):
+
+\- **wide datasets**: each row is an observation, refers to a unique value
+
+\- **long dataset**: multiple rows refer to a same observation
+:::
+
+[^3]: For a more detailed explanation refer to <https://tidyr.tidyverse.org/articles/tidy-data.html>
+
+We could use what we've learnt to **count** the votes for each proposal and type of vote being cast:
+
+```{webr}
+proposals_votes_count_long <- proposals_votes |> 
+  count(url, vote)
+
+head(proposals_votes_count_long, 10)
+```
+
+We can remove the proposals with no votes:
+
+```{webr}
+# Subset rows where vote is not empty.
+proposals_votes_count_long <- proposals_votes_count_long |> 
+  filter(!is.na(vote)) 
+  
+head(proposals_votes_count_long, 10)
+```
+
+#### Reshaping dataframes
+
+This format is not very useful for us now. It would be better to see how many votes of each type a proposal has received. In other words, we need to convert from a long format to a wide format. To do so, we will use another package from the tidyverse: [`{tidyr}`](https://tidyr.tidyverse.org/) provides two convenient functions `pivot_wider()`[^4] to convert from long to wide, and `pivot_longer()`, to do the opposite.
+
+[^4]: This function is full of nuances and requires having a clear picture of the actual data and what the shape we want it to have. Refer to the vignette `vignette::pivot_wider` or the help function `?pivot_wider`
+
+```{webr}
+# Uncomment below if you need to install the package:
+# install.packages("tidyr")
+
+proposals_votes_count <-  proposals_votes_count_long |> 
+  tidyr::pivot_wider(names_from = vote, values_from = n)
+
+head(proposals_votes_count)
+
+```
+
+#### Combining dataframes
+
+We have two datasets: one containing proposals, and another one containing votes. Wouldn't it be nice to have the total votes per proposal in a single dataset?
+
+To combine proposals with `proposals_votes`, we need to:
+
+1.  Make sure that both dataframes have a shared field to use as an index
+
+2.  Make sure that both dataframes are either long or wide
+
+Gladly, both conditions are met, so we are ready to join them.
+
+```{webr}
+proposals <- proposals |> 
+  left_join(votes_count, by = join_by(fullurl == url))
+```
+
+#### Piping everything
+
+Or, we could do all of this (and something more) piping multiple verbs in one statement:
+
+```{webr}
+# Doing everything at one go
+votes_count <- proposals_votes |>
   filter(!is.na(vote)) |>
-  count(url, vote) |> 
-  tidyr::pivot_wider(names_from = vote, values_from = n) |> 
-  mutate(votes_total = rowSums(across(c(Approve, Oppose, Abstain, Other)), na.rm = TRUE)) |> 
+  count(url, vote) |>
+  tidyr::pivot_wider(names_from = vote, values_from = n) |>
+  mutate(
+    votes_total = rowSums(
+      across(c(Approve, Oppose, Abstain, Other)),
+      na.rm = TRUE
+    )
+  ) |>
   rename(
     votes_approve = Approve,
     votes_oppose = Oppose,
@@ -193,6 +434,24 @@ votes_count <- proposals_votes |>
 proposals <- proposals |> 
   # Incorporate votes
   left_join(votes_count, by = join_by(fullurl == url))
+
 ```
 
-## Readings
+::: callout-caution
+#### Question
+
+Can you guess what additional steps did we do and what are their outcomes?
+:::
+
+## Further questions
+
+By now, you should be equipped to answer the following questions by adapting the code above:
+
+1.  What gets proposed?
+2.  What's the general outcome of the tagging proposal?
+3.  What are the more controversial proposals?
+
+And questions related to measurement:
+
+1.  Has this process or its outcomes changed over time?
+2.  How can we operationalise diversity?
