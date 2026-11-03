@@ -1,59 +1,198 @@
 ---
-title: "Week 5: Data"
-format: 
-  live-html:
-    theme:
-      - cosmo
-      - brand
-    toc: true
-    css: /styles.css
-
-engine: knitr
+title: "Data"
 bibliography: references.bib
 ---
 
-{{< include ../../_extensions/r-wasm/live/_knitr.qmd >}}
-
 In this week, you will be using your laptops to work with a relatively big research dataset [@cámara-menoyo2026] to answer actual research questions that arose from a research project.
+
+## Session's goals
+
+1.  Familiarise with the dataset (and the process it represents)
+2.  learn tidyverse's syntax for frequent data manipulations:
+    1.  `filter()` to subset rows matching some conditions
+    2.  `select()`, to subset columns (by name or position)
+    3.  `group()` and `summarise()` to compute summaries based on some criteria
+    4.  use join_by() to combine datasets
+3.  learn when to apply these methods to address research questions
 
 ## Slides
 
 ```{=html}
-<iframe class="slide-deck" src="/slides/week_5/index.html" title="Slides: Maps, world-views and neutrality"></iframe>
+<iframe class="slide-deck" src="/content/week_5/slides.html" title="Slides: Maps, world-views and neutrality"></iframe>
 ```
 
-[Open the slides in full screen](/slides/week_5/index.html)
+[Open the slides in full screen](/content/week_5/slides.html)
 
-## The dataset
+## The data
 
-The dataset
+The data consists of two \`csv\` files:
 
-## Loading data
+1.  `proposals.csv`: containing all Approved, Rejected and Proposed tagging proposals from the [OSM Wiki](https://wiki.openstreetmap.org), as well as their associated metadata.
 
-The data is provided by you in this folder. You will see two datasets there:
+2.  `proposals_votes.csv`: containing all the votes cast for every tagging proposal in `proposals`.
 
-```{webr urls}
-proposals_url <- "/data/proposals.csv"
-votes_url <- "/data/votes.csv"
+Both files were generated using a dedicated R-package called [`{OSMproposals}`](https://warwickcim.github.io/osmproposals/) [@cámara-menoyo2026] which provides reproducible datasets containing information about [OpenStreetMap](http://openstreetmap.org)’s tagging proposals. It does so by querying and webscrapping OSM’s wiki via helper functions. Refer to the official documentation page: <https://warwickcim.github.io/osmproposals/> to see metadata and the source code that generated each dataset.
 
+::: callout-warning
+## Important considerations
 
+1.  The provided datasets contain experimental versions of the actual datasets provided by the package, so documentation may slightly differ.
+2.  These datasets are part of an ongoing research. **Please, do not share them beyond the classroom unless with explicit permission from their authors.**
+:::
+
+```{r setup}
+#| echo: false
+library(knitr)
 ```
 
-Load the two datasets and assign them, respectively, to the variables `proposals` and `votes`.
+### Loading data
 
-```{webr}
-#| exercise: ex_load_data
-proposals <- read.csv(______)
+The data is provided by you in the `data/` folder. We'll load the two datasets and assign them, respectively, to the variables `proposals` and `proposals_votes`:
 
+```{r data-load}
+#| warning: false
 
-```
-
-## Some text here
-
-
-
-```{webr}
+# Load dependencies
 library(dplyr)
 
-dplyr::starwars
+path_proposals <- "../../data/raw/proposals.csv"
+path_votes <- "../../data/raw/proposals_votes.csv"
+
+proposals <- read.csv(path_proposals) 
+proposals_votes <- read.csv(path_votes)
+
 ```
+
+### Exploring data
+
+Some questions we may want to immediately answer to familiarise with the datasets are:
+
+- How big are these datasets?
+
+- What do they contain?
+
+```{r}
+#| column: page
+#| warning: false
+
+# See first 5 rows
+head(proposals, 5)
+
+# See last 5 rows
+tail(proposals_votes, 5)
+```
+
+```{r}
+summary(proposals)
+```
+
+A sense of the structure
+
+::: panel-tabset
+## Base R
+
+```{r}
+str(proposals)
+
+str(proposals_votes)
+```
+
+## Tidyverse
+
+`dplyr`\` offers the function `glimpse`\`:
+
+```{r}
+glimpse(proposals)
+```
+:::
+
+```         
+```
+
+Another approach:
+
+```{r}
+skimr::skim(proposals)
+```
+
+::: callout-caution
+## Is this big data?
+:::
+
+## Descriptive statistics
+
+What's the outcome
+
+```{r}
+proposals |> 
+  count(status_raw, sort = TRUE)
+
+summary(as.factor(proposals$status_raw))
+```
+
+## How many languages are used?
+
+```{r}
+
+proposals |> 
+  count(language)
+
+```
+
+## How long does it take to finish a proposal?
+
+```{r}
+
+test <- proposals |> 
+  select(fullurl, status_simple, draft_started, rfc_start, vote_start, vote_end) |> 
+  filter(status_simple == "Completed") |> 
+  mutate(
+    draft_started = as.Date(draft_started),
+    vote_end = as.Date(vote_end),
+    total = vote_end - draft_started
+  ) |> 
+  # Remove negative values
+  filter(total > 0)
+
+
+head(test)
+
+summary(test$total)
+
+hist(as.numeric(test$total))
+
+hist(as.numeric(test$total), breaks = 100, xlim = c(0, 1000))
+```
+
+Are there any other metrics to quantify labour needed?
+
+## Further questions
+
+- Which are the most controversial proposals?
+
+- Are there different patterns based on the provided classification?
+
+- Which variables would you use to create your own classification for the proposals? Did you spot any differences between groups?
+
+## Combining datasets
+
+```{r}
+
+votes_count <- proposals_votes |> 
+  filter(!is.na(vote)) |>
+  count(url, vote) |> 
+  tidyr::pivot_wider(names_from = vote, values_from = n) |> 
+  mutate(votes_total = rowSums(across(c(Approve, Oppose, Abstain, Other)), na.rm = TRUE)) |> 
+  rename(
+    votes_approve = Approve,
+    votes_oppose = Oppose,
+    votes_abstain = Abstain,
+    votes_other = Other
+  )
+
+proposals <- proposals |> 
+  # Incorporate votes
+  left_join(votes_count, by = join_by(fullurl == url))
+```
+
+## Readings
