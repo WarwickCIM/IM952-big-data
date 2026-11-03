@@ -1,1 +1,1 @@
-Sitemap: https://WarwickCIM.github.io/IM952_labs/sitemap.xml
+Sitemap: https://WarwickCIM.github.io/IM952-big-data/sitemap.xml

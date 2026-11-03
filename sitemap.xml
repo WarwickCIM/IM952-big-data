@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/about.html</loc>
-    <lastmod>2026-10-28T13:36:11.183Z</lastmod>
+    <loc>https://WarwickCIM.github.io/IM952-big-data/index.html</loc>
+    <lastmod>2026-11-03T08:56:21.436Z</lastmod>
   </url>
   <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/content/week_6/taginfo.html</loc>
-    <lastmod>2026-10-28T13:36:11.184Z</lastmod>
+    <loc>https://WarwickCIM.github.io/IM952-big-data/content/week_5/index.html</loc>
+    <lastmod>2026-11-03T08:56:21.421Z</lastmod>
   </url>
   <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/index.html</loc>
-    <lastmod>2026-10-28T13:36:11.184Z</lastmod>
+    <loc>https://WarwickCIM.github.io/IM952-big-data/content/week_5/slides.html</loc>
+    <lastmod>2026-11-03T08:56:21.436Z</lastmod>
   </url>
   <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/slides/week_5/index.html</loc>
-    <lastmod>2026-10-28T13:36:11.185Z</lastmod>
+    <loc>https://WarwickCIM.github.io/IM952-big-data/content/week_5/index_exercises.html</loc>
+    <lastmod>2026-11-03T08:56:21.421Z</lastmod>
   </url>
   <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/content/week_5/index.html</loc>
-    <lastmod>2026-10-28T13:36:11.184Z</lastmod>
-  </url>
-  <url>
-    <loc>https://WarwickCIM.github.io/IM952_labs/quarto-live.html</loc>
-    <lastmod>2026-10-28T13:36:11.184Z</lastmod>
+    <loc>https://WarwickCIM.github.io/IM952-big-data/content/week_6/taginfo.html</loc>
+    <lastmod>2026-11-03T08:56:21.436Z</lastmod>
   </url>
 </urlset>
