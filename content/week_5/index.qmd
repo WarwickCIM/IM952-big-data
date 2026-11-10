@@ -114,7 +114,7 @@ We can explore the first rows using `head()`, or, conversely, use `tail()` to se
 head(proposals, 5)
 ```
 
-::: {.callout-caution collapse="true"}
+:::: {.callout-caution collapse="true"}
 #### QUESTION: Why would we need to use one or the other (or both)?
 
 ```{webr}
@@ -123,11 +123,29 @@ head(proposals, 5)
 # See last 5 rows
 tail(______, ______)
 ```
+
+::: {.solution exercise="ex_tail"}
+#### Solution
+
+Use the `tail()` and pass the dataframe as first parameter and the number of rows in the second one.
+
+```{webr}
+#| exercise: ex_tail
+#| solution: true
+tail(proposals, 5)
+```
 :::
+
+```{webr}
+#| exercise: ex_tail
+#| check: true
+gradethis::grade_this_code()
+```
+::::
 
 Alternative, `dplyr` provides an interesting function `gplimpse` to describe the dataframes:
 
-``` webr
+```{webr}
 # We can better see the name of the columns and their types using glimpse()
 glimpse(proposals)
 ```
@@ -156,6 +174,30 @@ proposals <- mutate(proposals, draft_started = as.Date(______))
 
 # Check what we did
 glimpse(proposals)
+```
+
+:::: {.hint exercise="ex_to_date"}
+::: {.callout-note collapse="false"}
+## Hint 1
+
+We are looking for a column name here. We need to write the name of the column that we want to convert to a date.
+:::
+::::
+
+:::: {.solution exercise="ex_to_date"}
+::: {.callout-tip collapse="false"}
+## Fully worked solution:
+
+``` r
+proposals <- mutate(proposals, draft_started = as.Date(draft_started))
+```
+:::
+::::
+
+```{webr}
+#| exercise: ex_to_date
+#| check: true
+gradethis::grade_this_code()
 ```
 
 ::: callout-tip
@@ -217,13 +259,31 @@ Bear with me: we will see why this syntax using the pipe operator `|>` is very c
 
 On week 5 [@uprichard2026], we saw the importance of measurments and how deciding what and how to measure is anything but trivial. There are many ways to define diversity. In this case, we will use the language in which the proposals are written as a proxy for diversity.
 
-We are going to use dplyr's `count()` to count the number of different languages used.
+We are going to use dplyr's `count()` to count the number of different languages used in the column `language`.
 
 ```{webr}
+#| exercise: ex_count_lang
 proposals_lang <- proposals |> 
-  count(language)
+  count(______) # write the name of the columns
 
 proposals_lang
+```
+
+::: { .solution exercise="ex_count_lang" }
+```{webr}
+#| exercise: ex_count_lang
+#| solution: true
+proposals_lang <- proposals |> 
+  count(language) # write the name of the columns
+
+proposals_lang
+```
+:::
+
+```{webr}
+#| exercise: ex_count_lang
+#| check: true
+gradethis::grade_this_code()
 ```
 
 `count()` conveniently can sort the values by number of uses:
@@ -236,7 +296,9 @@ proposals_lang
 ```
 
 ::: callout-caution
-#### QUESTION: what does that information tell us? How is it related to diversity?
+#### Question: 
+
+What does that information tell us? How is it related to diversity?
 :::
 
 ### How much labour is required to make a proposal?
@@ -250,18 +312,42 @@ Only a subset of proposals ever get to get voted, so we are going to use `filter
 Here, we will be using `select()` to subset **columns**:
 
 ```{webr}
+#| exercise: ex_select
+
 # Let's subset only the columns that are needed
 time_spent_completed <- proposals |> 
-  select(title, status_raw, draft_started, vote_end)
-
+  select(title, ______, ______, ______)
 
 glimpse(time_spent_completed)
 
 ```
 
-And now, let's use `filter()` to subset **rows**:
+```{webr}
+#| exercise: ex_select
+#| solution: true
+
+# Let's subset only the columns that are needed
+time_spent_completed <- proposals |> 
+  select(title, status_raw, draft_started, vote_end)
+
+glimpse(time_spent_completed)
+
+```
+
+And now, let's use `filter()` to subset **rows** whose status is either "Approved" or "Rejected":
 
 ```{webr}
+#| exercise: ex_subset_filter
+# Let's subset only the rows that are needed
+time_spent_completed <- time_spent_completed |> 
+  filter(status_raw %in% c("Approved", _______))
+
+glimpse(time_spent_completed)
+```
+
+```{webr}
+#| exercise: ex_subset_filter
+#| solution: true
 # Let's subset only the rows that are needed
 time_spent_completed <- time_spent_completed |> 
   filter(status_raw %in% c("Approved", "Rejected"))
@@ -270,13 +356,22 @@ glimpse(time_spent_completed)
 ```
 
 ```{webr}
-
 head(time_spent_completed)
 ```
 
 And now, we are going to compute the amount of time spent. We will be using `mutate()` to create a new variable called `time_spent` which is the time difference between the proposal was voted (finished) and drafted (started).
 
 ```{webr}
+#| exercise: ex_time_spent
+time_spent_completed <- time_spent_completed |> 
+  mutate(time_spent = ______ )
+  
+time_spent_completed
+```
+
+```{webr}
+#| exercise: ex_time_spent
+#| solution: true
 time_spent_completed <- time_spent_completed |> 
   mutate(time_spent = vote_end - draft_started)
   
@@ -348,9 +443,9 @@ head(proposals_votes)
 
 `proposals_votes` is a **long dataset** (as opposed to a wide one, like the previous one):
 
-\- **wide datasets**: each row is an observation, refers to a unique value
+- **wide datasets**: each row is an observation, refers to a unique value
 
-\- **long dataset**: multiple rows refer to a same observation
+- **long dataset**: multiple rows refer to a same observation
 :::
 
 [^3]: For a more detailed explanation refer to <https://tidyr.tidyverse.org/articles/tidy-data.html>

@@ -143,9 +143,9 @@ OSM is the biggest and most precise free/libre spatial database of the world
 
 ![Map showing the tags used on a particular Node (CIM)](media/Node-_Centre-for-Interdisciplinary-Methodologies_-_9314752320_-OpenStreetMap.png)
 
----
+------------------------------------------------------------------------
 
-![Same node, on the editor. Showing the interface for adding new keys](media/Screenshot 2026-11-03 at 08-38-41 iD – Centre for Interdisciplinary Methodologies OpenStreetMap.png)
+![Same node, on the editor. Showing the interface for adding new keys](media/Screenshot%202026-11-03%20at%2008-38-41%20iD%20–%20Centre%20for%20Interdisciplinary%20Methodologies%20OpenStreetMap.png)
 
 ## The questions {.center background-color="#BBDF46"}
 
@@ -202,7 +202,7 @@ Anyone can suggest what to tag and/or how to tag it. Process [documented here](h
 
 ## Datasets {.smaller}
 
-:::::: columns
+::::: columns
 ::: {.column width="50%"}
 **Via [{OSMpRoposals}](https://warwickcim.github.io/osmproposals/) R-package: Provides two reproducible, citable, documented and ready to use (offline) datasets**:
 
@@ -225,12 +225,10 @@ Anyone can suggest what to tag and/or how to tag it. Process [documented here](h
 4.  DOI and how to cite
 :::
 
-:::: {.column width="50%"}
+::: {.column width="50%"}
 ![](media/osmproposals.png)
-
-
-::::
-::::::
+:::
+:::::
 
 ## Questions
 
@@ -238,7 +236,5 @@ We will be interrogating our data to answer these groups of questions:
 
 1.  How diverse is this dataset?
 2.  How much labour is involved in creating a tagging proposal?
-
-
 
 # References
