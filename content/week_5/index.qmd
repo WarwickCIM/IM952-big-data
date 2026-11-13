@@ -13,7 +13,7 @@ webr:
     - dplyr
     - tidyr
 resources:
-  - data
+  - data/raw
 engine: knitr
 bibliography: references.bib
 reference-location: margin
