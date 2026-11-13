@@ -61,6 +61,15 @@ Both files were generated using a dedicated R-package called [`{OSMproposals}`](
 2.  These datasets are part of an ongoing research. **Please, do not share them beyond the classroom unless with explicit permission from their authors.**
 :::
 
+::: {.callout-caution collapse="true"}
+### Is this big data?
+
+There are two ways in which data can be considered as big data:[@matter2024]:
+
+1.  Data that is difficult to handle: this could be either often because it has been "gathered  from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.) as well as because of the infrastructure needed to store and load/process large amounts of data."
+2.  Data that is hard to get value from due to size and complexity.
+:::
+
 ### Loading data
 
 The data is provided by you in a folder `data/raw/`. It is a good practice to separate raw data (e.g. extracted from a package, survey...) from final data derived from code calculations. Final data can always be regenerated programmatically, whereas raw data can't.
@@ -269,7 +278,7 @@ proposals_lang <- proposals |>
 proposals_lang
 ```
 
-::: { .solution exercise="ex_count_lang" }
+::: {.solution exercise="ex_count_lang"}
 ```{webr}
 #| exercise: ex_count_lang
 #| solution: true
@@ -296,7 +305,7 @@ proposals_lang
 ```
 
 ::: callout-caution
-#### Question: 
+#### Question:
 
 What does that information tell us? How is it related to diversity?
 :::
