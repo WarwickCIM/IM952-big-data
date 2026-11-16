@@ -8,6 +8,7 @@ website:
       - href: index.qmd
         text: Home
       - content/week_5/index.qmd
+      - content/week_7/index.qmd
 
 format:
   html:

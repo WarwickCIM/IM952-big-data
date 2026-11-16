@@ -1,5 +1,5 @@
 ---
-title: "Using APIs"
+title: "2. Using APIs"
 format: 
   live-html:
     theme:
@@ -232,12 +232,11 @@ There are a number of websites to obtain the actual values for a given region, s
 # Uncomment below if you don't have osmdata installed in your system:
 # install.packages("osmdata")
 
-
 library(osmdata)
 
 # Getting our bounding box
 
-warwick_bbox <- getbb ("University of Warwick")
+warwick_bbox <- getbb("University of Warwick")
 #warwick_bbox <- c(-1.57418,52.37887,-1.55783,52.38314) #Obtained from https://norbertrenner.de/osm/bbox.html
 
 # See which server you're using
@@ -283,7 +282,6 @@ For more information, refer to <https://docs.ropensci.org/osmdata/articles/osmda
 Let's explore the actual data from overpass:
 
 ```{r}
-#| column: page
 #| label: osmdata-head
 head(warwick_art$osm_points)
 ```
@@ -341,19 +339,19 @@ leaflet() |>
 
 ```
 
-
 ## Wrap up
 
 In this session we've learnt a number of different things!
 
-1. We got a theoretical understanding on strategies to work with big data.
-   1. And how API's are examples of outscaling our infrastructure
-2. Through interacting with two different API services we learnt:
-   1. We gained an understanding on how to get started with API services (e.g. documentation) and what to expect from them
-   2. We learnt how to interact via GUI and through code
-3. When interacting with API through code, we learnt:
-   1. To use generic functions to query the APIs directly
-   2. To use specialised libraries to work with specific APIs
+1.  We got a theoretical understanding on strategies to work with big data.
+    1.  And how API's are examples of outscaling our infrastructure
+2.  Through interacting with two different API services we learnt:
+    1.  We gained an understanding on how to get started with API services (e.g. documentation) and what to expect from them
+    2.  We learnt how to interact via GUI and through code
+3.  When interacting with API through code, we learnt:
+    1.  To use generic functions to query the APIs directly
+    2.  To use specialised libraries to work with specific APIs
 
 And we have also refreshed concepts from previous week:
-1. Manipulating data using `dplyr`.
+
+1.  Manipulating data using `dplyr`.
