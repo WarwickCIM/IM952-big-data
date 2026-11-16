@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Using APIs – IM952 - Labs</title>
+<title>2. Using APIs – IM952 - Labs</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -149,6 +149,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../../content/week_5/index.html"> 
 <span class="menu-text">1. Interrogating data locally</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../content/week_7/index.html" aria-current="page"> 
+<span class="menu-text">2. Using APIs</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -185,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Using APIs</h1>
+<h1 class="title">2. Using APIs</h1>
 </div>
 
 
@@ -484,15 +488,14 @@ Figure&nbsp;3: Overpass-turbo screenshot displaying features containing <code>ar
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment below if you don't have osmdata installed in your system:</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("osmdata")</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(osmdata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(osmdata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
 connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting our bounding box</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>warwick_bbox <span class="ot">&lt;-</span> <span class="fu">getbb</span> (<span class="st">"University of Warwick"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>warwick_bbox <span class="ot">&lt;-</span> <span class="fu">getbb</span>(<span class="st">"University of Warwick"</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#warwick_bbox &lt;- c(-1.57418,52.37887,-1.55783,52.38314) #Obtained from https://norbertrenner.de/osm/bbox.html</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See which server you're using</span></span>
@@ -507,7 +510,7 @@ connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pr
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_osm_feature</span>(<span class="at">key =</span> <span class="st">"tourism"</span>, <span class="at">value =</span> <span class="st">"artwork"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">osmdata_sf</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Waiting 14.9998378753662 seconds</code></pre>
+<pre><code>Waiting 14.9998679161072 seconds</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore the data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>warwick_art</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -552,10 +555,10 @@ connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pr
 </div>
 </div>
 </section>
-<section id="creating-a-map" class="level4 page-columns page-full">
+<section id="creating-a-map" class="level4">
 <h4 class="anchored" data-anchor-id="creating-a-map">Creating a map</h4>
 <p>Let’s explore the actual data from overpass:</p>
-<div class="cell column-page">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(warwick_art<span class="sc">$</span>osm_points)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               osm_id                        name          artist_name
@@ -619,8 +622,8 @@ connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pr
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">data =</span> points)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-6f0a04cf2a76305f480d" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-6f0a04cf2a76305f480d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[52.3779249,52.3789415,52.3819406,52.3809672,52.3794931,52.3801954,52.3800157,52.3803434,52.380338,52.3800969,52.381038,52.3835209,52.3790643,52.3803872,52.3760474,52.3755495,52.3828245,52.3763729,52.379113],[-1.5606705,-1.5621993,-1.5639598,-1.5606941,-1.5629341,-1.5602585,-1.5607843,-1.560125,-1.559846,-1.5598065,-1.5608554,-1.5552424,-1.5656302,-1.5680293,-1.5647746,-1.5654383,-1.5602525,-1.5567464,-1.5615943],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[52.3755495,52.3835209],"lng":[-1.5680293,-1.5552424]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-c67da49c0b883ae3c257" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c67da49c0b883ae3c257">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[52.3779249,52.3789415,52.3819406,52.3809672,52.3794931,52.3801954,52.3800157,52.3803434,52.380338,52.3800969,52.381038,52.3835209,52.3790643,52.3803872,52.3760474,52.3755495,52.3828245,52.3763729,52.379113],[-1.5606705,-1.5621993,-1.5639598,-1.5606941,-1.5629341,-1.5602585,-1.5607843,-1.560125,-1.559846,-1.5598065,-1.5608554,-1.5552424,-1.5656302,-1.5680293,-1.5647746,-1.5654383,-1.5602525,-1.5567464,-1.5615943],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[52.3755495,52.3835209],"lng":[-1.5680293,-1.5552424]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>We can do slightly better by adding some popups displaying the attributes:</p>
@@ -645,8 +648,8 @@ connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pr
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span>popup</span>
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-b9e39d1563ba611a0eee" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-b9e39d1563ba611a0eee">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[52.3779249,52.3789415,52.3819406,52.3809672,52.3794931,52.3801954,52.3800157,52.3803434,52.380338,52.3800969,52.381038,52.3835209,52.3790643,52.3803872,52.3760474,52.3755495,52.3828245,52.3763729,52.379113],[-1.5606705,-1.5621993,-1.5639598,-1.5606941,-1.5629341,-1.5602585,-1.5607843,-1.560125,-1.559846,-1.5598065,-1.5608554,-1.5552424,-1.5656302,-1.5680293,-1.5647746,-1.5654383,-1.5602525,-1.5567464,-1.5615943],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["3B Series No 1<br>Bernard Schottlander<br>sculpture","Let's Not Be Stupid<br>Richard Deacon<br>sculpture","Needle of Knowledge Obelisk<br>Stefan Knapp<br>NA","NA<br>NA<br>NA","Days of Judgement - Cat 1<br>NA<br>sculpture","Butterworth Bench<br>NA<br>NA","White Koan<br>Liliane Lijn<br>sculpture","Forest 2011 - 3 Planet<br>Atsuo Okamoto<br>NA","Forest Planet - 3 2009<br>Atsuo Okamoto<br>NA","Forest 2011 - 2 Planet<br>Atsuo Okamoto<br>NA","Flayed Stone III<br>NA<br>NA","Big Takeaway<br>NA<br>sculpture","Song (Version V)<br>NA<br>sculpture","Reclining Stone<br>NA<br>sculpture","Black Cube<br>NA<br>sculpture","Hare<br>NA<br>sculpture","Around Zero<br>Michael Stallard<br>sculpture","Our shadows alone touched you trying to find where here is.<br>NA<br>sculpture","Ripple Effect<br>NA<br>sculpture"],null,null,null,["3B Series No 1","Let's Not Be Stupid","Needle of Knowledge Obelisk",null,"Days of Judgement - Cat 1","Butterworth Bench","White Koan","Forest 2011 - 3 Planet","Forest Planet - 3 2009","Forest 2011 - 2 Planet","Flayed Stone III","Big Takeaway","Song (Version V)","Reclining Stone","Black Cube","Hare","Around Zero","Our shadows alone touched you trying to find where here is.","Ripple Effect"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[52.3755495,52.3835209],"lng":[-1.5680293,-1.5552424]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-708eddc44919e564c5db" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-708eddc44919e564c5db">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[52.3779249,52.3789415,52.3819406,52.3809672,52.3794931,52.3801954,52.3800157,52.3803434,52.380338,52.3800969,52.381038,52.3835209,52.3790643,52.3803872,52.3760474,52.3755495,52.3828245,52.3763729,52.379113],[-1.5606705,-1.5621993,-1.5639598,-1.5606941,-1.5629341,-1.5602585,-1.5607843,-1.560125,-1.559846,-1.5598065,-1.5608554,-1.5552424,-1.5656302,-1.5680293,-1.5647746,-1.5654383,-1.5602525,-1.5567464,-1.5615943],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["3B Series No 1<br>Bernard Schottlander<br>sculpture","Let's Not Be Stupid<br>Richard Deacon<br>sculpture","Needle of Knowledge Obelisk<br>Stefan Knapp<br>NA","NA<br>NA<br>NA","Days of Judgement - Cat 1<br>NA<br>sculpture","Butterworth Bench<br>NA<br>NA","White Koan<br>Liliane Lijn<br>sculpture","Forest 2011 - 3 Planet<br>Atsuo Okamoto<br>NA","Forest Planet - 3 2009<br>Atsuo Okamoto<br>NA","Forest 2011 - 2 Planet<br>Atsuo Okamoto<br>NA","Flayed Stone III<br>NA<br>NA","Big Takeaway<br>NA<br>sculpture","Song (Version V)<br>NA<br>sculpture","Reclining Stone<br>NA<br>sculpture","Black Cube<br>NA<br>sculpture","Hare<br>NA<br>sculpture","Around Zero<br>Michael Stallard<br>sculpture","Our shadows alone touched you trying to find where here is.<br>NA<br>sculpture","Ripple Effect<br>NA<br>sculpture"],null,null,null,["3B Series No 1","Let's Not Be Stupid","Needle of Knowledge Obelisk",null,"Days of Judgement - Cat 1","Butterworth Bench","White Koan","Forest 2011 - 3 Planet","Forest Planet - 3 2009","Forest 2011 - 2 Planet","Flayed Stone III","Big Takeaway","Song (Version V)","Reclining Stone","Black Cube","Hare","Around Zero","Our shadows alone touched you trying to find where here is.","Ripple Effect"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[52.3755495,52.3835209],"lng":[-1.5680293,-1.5552424]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -671,7 +674,10 @@ connected to: https://maps.mail.ru/osm/tools/overpass/api/interpreter</code></pr
 <li>To use specialised libraries to work with specific APIs</li>
 </ol></li>
 </ol>
-<p>And we have also refreshed concepts from previous week: 1. Manipulating data using <code>dplyr</code>.</p>
+<p>And we have also refreshed concepts from previous week:</p>
+<ol type="1">
+<li>Manipulating data using <code>dplyr</code>.</li>
+</ol>
 
 
 <script type="ojs-module-contents">
