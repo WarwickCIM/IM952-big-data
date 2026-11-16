@@ -1,0 +1,163 @@
+---
+title: "IM952 Labs - Week 7"
+subtitle: "Strategies for working with big Data: APIs"
+author: 
+  - name: "Carlos Cámara-Menoyo"
+    affiliation: Centre for Interdisciplinary Methodologies (University of Warwick)
+
+format: 
+    revealjs:
+      theme: [default, ../../styles/warwick-slides.scss, ../../styles/warwick-fonts.scss]
+      footer: "IM952 - Week 5"
+      logo: ../../media/warwick-logo.svg
+      navigation-mode: vertical
+      controls: false
+      transition: slide
+execute:
+  echo: false
+
+title-slide-attributes:
+  data-background-image: media/OpenStreetMap.png
+  # data-background-color: "#A499F4"
+  data-background-color: "#A499F4"
+  # data-background-size: contain
+  data-background-opacity: "0.2"
+
+bibliography: references.bib
+---
+
+Last week:
+
+- We worked with relatively big datasets
+
+- We used R to interrogate the data and answer some research questions
+
+------------------------------------------------------------------------
+
+We didn't have time to discuss if those datasets were big data or not
+
+According to Ulrich Matter [-@matter2024, Chapter 1], big data is either:
+
+- Data that is **difficult to handle**:
+
+  - because it has been “gathered from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.)
+
+  - because of the infrastructure needed to store and load/process large amounts of data
+
+- Data that is hard to get value from due to **size and complexity**.
+
+# What happens when our data is too big to fit in our machine?
+
+::: notes
+It may be tempting to answer: get a better machine. Increase RAM or SSD/HDD, but this is only one option, and possibly a last resource option.
+:::
+
+# Some strategies for dealing with big data
+
+Before getting a better machine, there are other things we may want to consider
+
+::: centered
+Simplify -\> Otpimize -\> Outscale -\> Upscale
+:::
+
+## 1. Simplify
+
+*The focus is on the methods (The Data Scientist Approach)*
+
+**Simplify our data** so we can operate using traditional statistical analysis while **preserving same statistical validity**.
+
+Examples:
+
+1.  Can we simply get a random sample of the data?
+2.  Can we reduce the number of variables (e.g. use principal components)?
+
+If not, go to next options
+
+## 2. Optimize
+
+*The focus is on the software (The RSE approach)*
+
+1.  Optimize code
+    1.  use more efficient packages (e.g. `{dplyr}` or `{data table}`)
+    2.  parallel processing
+    3.  use more efficient programming languages
+2.  Optimize file formats:
+    1.  Column Stores (): good for analytics over large data (OLAP) (e.g. "Average revenue by region, last 12 months")
+        1.  [Parquet](https://parquet.apache.org/) (`.parquet`)
+        2.  [DuckDB](https://duckdb.org/) (`.duckdb`)
+    2.  Row Stores: goof for many small reads/writes (e.g. "Fetch order #48291 by ID")
+        1.  [SQLite](https://sqlite.org/index.html) (`.sqlite`)
+
+## 3. Outscaling
+
+*The focus in on the hardware (The sysadmin, cloud engineer, HPC, data scientist... approach)*
+
+::::: columns
+::: {.column width="50%"}
+Using somebody else's resources (usually better than ours or optimized for the task):
+
+1.  APIs
+2.  Cloud computing
+3.  Servers
+4.  High Performance Computer Cluster (HPC)
+:::
+
+::: {.column width="50%"}
+![Warwick's [Sullis HPC](https://warwick.ac.uk/research/rtp/sc/sulis/)](https://warwick.ac.uk/research/rtp/sc/sulis/edit-contents/211015_1311_hollis_tif_30020558276.jpg?maxWidth=&maxHeight=){alt="Warwick's Sullis HPC" fig-align="right"}
+:::
+:::::
+
+## 4. Upscaling
+
+*The focus is on the hardware (The sysadmin approach)*
+
+:::::: columns
+:::: {.column width="40%"}
+Improving our hardware specs.
+
+::: {.callout-warning appearance="minimal"}
+Considering the increasing hardware costs, this should be the last resource after having tried some of the previous options.
+:::
+::::
+
+::: {.column width="60%"}
+![Average price of DDR5-5200 2x16 GB RAM kits. "RAMmageddon" or "RAMpocalypse". Source: [Wikipedia](https://en.wikipedia.org/wiki/2025%E2%80%93present_global_memory_supply_shortage)](media/Average_price_of_DDR5-5200_2x16_GB_RAM_kits.png)
+:::
+::::::
+
+# That's not all
+
+1.  None of those methods are exclusive: sometimes we will need to combine two or more of those approaches.
+2.  There are more approaches, refer to [@gold2019] or [@matter2024, Chapter 2]
+
+# Outscaling using APIs
+
+## APIs 
+
+**Application Programming Interface (API)**: It is a **type of software interface**, that enables two computers/apps (a client and a server) to communicate and interact with each other through a set of given options and conditions that are documented and stable.
+
+::::: columns
+::: {.column width="50%"}
+![Source: https://www.geeksforgeeks.org/software-testing/what-is-an-api/](https://media.geeksforgeeks.org/wp-content/uploads/20260827143438179994/frame_3258.webp)
+:::
+
+::: {.column width="50%"}
+[![Source: bishopi.io/](media/rest-api-667832323.png)](https://bishopi.io/blog/what-is-api-and-how-does-it-boost-your-business)
+:::
+:::::
+
+# Using OSM's APIs
+
+As we know, OSM is (also) an ecosystem of tools. There are many API services available, some maintained as 3rd party services. We are going to see two of them
+
+## Taginfo
+
+Aggregates and visualises information about all the tags used at OSM:
+
+![](media/building-Keys-OpenStreetMap-Taginfo.png)
+
+## Overpass
+
+![](media/overpass-turbo.png)
+
+# References

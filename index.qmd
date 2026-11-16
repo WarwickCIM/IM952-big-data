@@ -22,11 +22,11 @@ In the next three lab sessions, we will be replicating an ongoing research proje
 
 ## Schedule
 
-| Schedule | Session                                                |
-|----------|--------------------------------------------------------|
-| Week 5   | [Interrogating data locally](content/week_5/index.qmd) |
-| Week 7   | Using APIs to interrogate data                         |
-| Week 9   | Querying databases                                     |
+| Schedule | Session |
+|----|----|
+| Week 5 | [Interrogating data locally](content/week_5/index.qmd) |
+| Week 7 | [Strategies for working with big data: APIs](content/week_5/index.qmd) |
+| Week 9 | Querying databases |
 
 ## Teaching Staff
 
