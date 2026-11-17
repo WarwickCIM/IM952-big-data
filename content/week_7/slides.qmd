@@ -30,7 +30,13 @@ Last week:
 
 - We worked with relatively big datasets
 
+- We followed a data-centric research workflow
+
 - We used R to interrogate the data and answer some research questions
+
+  - We used `{dplyr}` to `filter()` rows, `mutate()` variables
+
+  - We used `{tidyr}` to `join()` two dataframes
 
 ------------------------------------------------------------------------
 
@@ -40,7 +46,7 @@ According to Ulrich Matter [-@matter2024, Chapter 1], big data is either:
 
 - Data that is **difficult to handle**:
 
-  - because it has been “gathered from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.)
+  - because it has been gathered from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.)
 
   - because of the infrastructure needed to store and load/process large amounts of data
 
@@ -56,7 +62,7 @@ It may be tempting to answer: get a better machine. Increase RAM or SSD/HDD, but
 
 Before getting a better machine, there are other things we may want to consider
 
-::: centered
+::: center
 Simplify -\> Otpimize -\> Outscale -\> Upscale
 :::
 
@@ -88,7 +94,7 @@ If not, go to next options
     2.  Row Stores: goof for many small reads/writes (e.g. "Fetch order #48291 by ID")
         1.  [SQLite](https://sqlite.org/index.html) (`.sqlite`)
 
-## 3. Outscaling
+## 3. Outscale
 
 *The focus in on the hardware (The sysadmin, cloud engineer, HPC, data scientist... approach)*
 
@@ -103,11 +109,11 @@ Using somebody else's resources (usually better than ours or optimized for the t
 :::
 
 ::: {.column width="50%"}
-![Warwick's [Sullis HPC](https://warwick.ac.uk/research/rtp/sc/sulis/)](https://warwick.ac.uk/research/rtp/sc/sulis/edit-contents/211015_1311_hollis_tif_30020558276.jpg?maxWidth=&maxHeight=){alt="Warwick's Sullis HPC" fig-align="right"}
+![Warwick's Sullis HPC](https://warwick.ac.uk/research/rtp/sc/sulis/edit-contents/211015_1311_hollis_tif_30020558276.jpg?maxWidth=&maxHeight=){fig-align="right"}
 :::
 :::::
 
-## 4. Upscaling
+## 4. Upscale
 
 *The focus is on the hardware (The sysadmin approach)*
 
@@ -125,14 +131,14 @@ Considering the increasing hardware costs, this should be the last resource afte
 :::
 ::::::
 
-# That's not all
+## That's not all
 
 1.  None of those methods are exclusive: sometimes we will need to combine two or more of those approaches.
 2.  There are more approaches, refer to [@gold2019] or [@matter2024, Chapter 2]
 
-# Outscaling using APIs
+# Outscaling using APIs {background-color="#51D7C1"}
 
-## APIs 
+## APIs
 
 **Application Programming Interface (API)**: It is a **type of software interface**, that enables two computers/apps (a client and a server) to communicate and interact with each other through a set of given options and conditions that are documented and stable.
 
@@ -152,12 +158,34 @@ As we know, OSM is (also) an ecosystem of tools. There are many API services ava
 
 ## Taginfo
 
+<https://taginfo.openstreetmap.org/>
+
 Aggregates and visualises information about all the tags used at OSM:
 
 ![](media/building-Keys-OpenStreetMap-Taginfo.png)
 
 ## Overpass
 
+<https://overpass-turbo.eu/>
+
+Retrieves **map features** containing a certain `key` or `tag` **within a region**.
+
 ![](media/overpass-turbo.png)
+
+## Your turn
+
+::: callout-caution
+#### Task
+
+1.  Pick a key (or a tag) of your interest
+2.  On Taginfo:
+    1.  Use the GUI to explore what it says about the them.
+    2.  What can you tell about this key?
+3.  On Overpass Turbo:
+    1.  Select an area of your interest
+    2.  Create a query
+    3.  What can you tell about this key?
+4.  Overall: How can this information be useful?
+:::
 
 # References

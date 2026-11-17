@@ -61,7 +61,7 @@ Accessing [**taginfo.openstreetmap.org**](https://taginfo.openstreetmap.org/).
 ![A screenshot from taginfo, displaying information about a given key (`building`)](media/building-Keys-OpenStreetMap-Taginfo.png){#fig-taginfo-overview}
 
 ::: callout-caution
-## Task
+#### Task
 
 1.  Pick a key (or a tag) of your interest
 2.  Use the GUI to explore what it says about the them.
@@ -140,10 +140,10 @@ plot(x = key_chronology$date,
 )
 ```
 
-::: callout-caution
-### Your turn
+::: {.callout-caution collapse="true"}
+### Your turn: Can you adapt the code to retrieve data from the [prevalent values endpoint](https://taginfo.openstreetmap.org/taginfo/apidoc#api_4_key_prevalent_values)?
 
-Can you adapt the code to retrieve data from the [prevalent values endpoint](https://taginfo.openstreetmap.org/taginfo/apidoc#api_4_key_prevalent_values)?
+One option could be the following code:
 
 ```{r}
 selected_key <- "wheelchair"
@@ -210,7 +210,7 @@ The Wizard builds Overpass queries from a short search expression. It understand
 
 Overpass API's documentation is spread across multiple pages at OSM wiki: <https://wiki.openstreetmap.org/wiki/Overpass_API>.
 
-#### Quering Taginfo API with R
+#### Quering Overpass  API with R
 
 In this case, due to its relatively complexity, we will be using a specialised package to use Overpass API: [`{osmdata}`](https://docs.ropensci.org/osmdata/).
 
@@ -229,6 +229,7 @@ There are a number of websites to obtain the actual values for a given region, s
 
 ```{r}
 #| label: osmdata
+#| cache: true
 # Uncomment below if you don't have osmdata installed in your system:
 # install.packages("osmdata")
 
@@ -238,12 +239,6 @@ library(osmdata)
 
 warwick_bbox <- getbb("University of Warwick")
 #warwick_bbox <- c(-1.57418,52.37887,-1.55783,52.38314) #Obtained from https://norbertrenner.de/osm/bbox.html
-
-# See which server you're using
-get_overpass_url()
-
-# Switch to a mirror
-set_overpass_url("https://overpass-api.de/api/interpreter")
 
 warwick_art <- opq(bbox = warwick_bbox) |> 
     add_osm_feature(key = "tourism", value = "artwork") |>
