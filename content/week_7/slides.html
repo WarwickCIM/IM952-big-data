@@ -6,24 +6,27 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="Carlos Cámara-Menoyo">
   <title>IM952 - Labs – IM952 Labs - Week 7</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -51,7 +54,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cea5496aa9de01d20cbe98971fe478f2.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-061bdecdba8bfc2e85f895d80c1c355a.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -155,7 +158,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Carlos Cámara-Menoyo 
+Carlos Cámara-Menoyo
 </div>
         <p class="quarto-title-affiliation">
             Centre for Interdisciplinary Methodologies (University of Warwick)
@@ -169,7 +172,12 @@ Carlos Cámara-Menoyo
 <p>Last week:</p>
 <ul>
 <li><p>We worked with relatively big datasets</p></li>
-<li><p>We used R to interrogate the data and answer some research questions</p></li>
+<li><p>We followed a data-centric research workflow</p></li>
+<li><p>We used R to interrogate the data and answer some research questions</p>
+<ul>
+<li><p>We used <code>{dplyr}</code> to <code>filter()</code> rows, <code>mutate()</code> variables</p></li>
+<li><p>We used <code>{tidyr}</code> to <code>join()</code> two dataframes</p></li>
+</ul></li>
 </ul>
 </section>
 <section class="slide level2">
@@ -179,7 +187,7 @@ Carlos Cámara-Menoyo
 <ul>
 <li><p>Data that is <strong>difficult to handle</strong>:</p>
 <ul>
-<li><p>because it has been “gathered from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.)</p></li>
+<li><p>because it has been gathered from unorthodox sources, providing poorly structured data (e.g., raw text, web pages, images, etc.)</p></li>
 <li><p>because of the infrastructure needed to store and load/process large amounts of data</p></li>
 </ul></li>
 <li><p>Data that is hard to get value from due to <strong>size and complexity</strong>.</p></li>
@@ -206,7 +214,7 @@ Carlos Cámara-Menoyo
 <section id="some-strategies-for-dealing-with-big-data" class="title-slide slide level1 center">
 <h1>Some strategies for dealing with big data</h1>
 <p>Before getting a better machine, there are other things we may want to consider</p>
-<div class="centered">
+<div class="center">
 <p>Simplify -&gt; Otpimize -&gt; Outscale -&gt; Upscale</p>
 </div>
 </section>
@@ -245,8 +253,8 @@ Carlos Cámara-Menoyo
 </ol></li>
 </ol>
 </section>
-<section id="outscaling" class="slide level2">
-<h2>3. Outscaling</h2>
+<section id="outscale" class="slide level2">
+<h2>3. Outscale</h2>
 <p><em>The focus in on the hardware (The sysadmin, cloud engineer, HPC, data scientist… approach)</em></p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -261,13 +269,13 @@ Carlos Cámara-Menoyo
 <div class="quarto-figure quarto-figure-right">
 <figure>
 <p><img data-src="https://warwick.ac.uk/research/rtp/sc/sulis/edit-contents/211015_1311_hollis_tif_30020558276.jpg?maxWidth=&amp;maxHeight="></p>
-<figcaption>Warwick’s <a href="https://warwick.ac.uk/research/rtp/sc/sulis/">Sullis HPC</a></figcaption>
+<figcaption>Warwick’s Sullis HPC</figcaption>
 </figure>
 </div>
 </div></div>
 </section>
-<section id="upscaling" class="slide level2">
-<h2>4. Upscaling</h2>
+<section id="upscale" class="slide level2">
+<h2>4. Upscale</h2>
 <p><em>The focus is on the hardware (The sysadmin approach)</em></p>
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -287,17 +295,16 @@ Carlos Cámara-Menoyo
 </figure>
 </div>
 </div></div>
-</section></section>
-<section id="thats-not-all" class="title-slide slide level1 center">
-<h1>That’s not all</h1>
+</section>
+<section id="thats-not-all" class="slide level2">
+<h2>That’s not all</h2>
 <ol type="1">
 <li>None of those methods are exclusive: sometimes we will need to combine two or more of those approaches.</li>
 <li>There are more approaches, refer to <span class="citation" data-cites="gold2019">(<a href="#/references" role="doc-biblioref" onclick="">Gold 2019</a>)</span> or <span class="citation" data-cites="matter2024">(<a href="#/references" role="doc-biblioref" onclick="">Matter 2024, chap. 2</a>)</span></li>
 </ol>
-</section>
-
+</section></section>
 <section>
-<section id="outscaling-using-apis" class="title-slide slide level1 center">
+<section id="outscaling-using-apis" class="title-slide slide level1 center" data-background-color="#51D7C1">
 <h1>Outscaling using APIs</h1>
 
 </section>
@@ -328,13 +335,46 @@ Carlos Cámara-Menoyo
 </section>
 <section id="taginfo" class="slide level2">
 <h2>Taginfo</h2>
+<p><a href="https://taginfo.openstreetmap.org/" class="uri">https://taginfo.openstreetmap.org/</a></p>
 <p>Aggregates and visualises information about all the tags used at OSM:</p>
 
 <img data-src="media/building-Keys-OpenStreetMap-Taginfo.png" class="r-stretch"></section>
 <section id="overpass" class="slide level2">
 <h2>Overpass</h2>
+<p><a href="https://overpass-turbo.eu/" class="uri">https://overpass-turbo.eu/</a></p>
+<p>Retrieves <strong>map features</strong> containing a certain <code>key</code> or <code>tag</code> <strong>within a region</strong>.</p>
 
-<img data-src="media/overpass-turbo.png" class="r-stretch"></section></section>
+<img data-src="media/overpass-turbo.png" class="r-stretch"></section>
+<section id="your-turn" class="slide level2">
+<h2>Your turn</h2>
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Task</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Pick a key (or a tag) of your interest</li>
+<li>On Taginfo:
+<ol type="1">
+<li>Use the GUI to explore what it says about the them.</li>
+<li>What can you tell about this key?</li>
+</ol></li>
+<li>On Overpass Turbo:
+<ol type="1">
+<li>Select an area of your interest</li>
+<li>Create a query</li>
+<li>What can you tell about this key?</li>
+</ol></li>
+<li>Overall: How can this information be useful?</li>
+</ol>
+</div>
+</div>
+</div>
+</section></section>
 <section id="references" class="title-slide slide level1 smaller scrollable">
 <h1>References</h1>
 
@@ -384,7 +424,7 @@ Matter, Ulrich. 2024. <em>Big Data Analytics: A Guide to Data Science Practition
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -634,12 +674,13 @@ Matter, Ulrich. 2024. <em>Big Data Analytics: A Guide to Data Science Practition
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp("https:\/\/WarwickCIM\.github\.io\/IM952_labs\/");
+            var filterRegex = new RegExp("https:\/\/WarwickCIM\.github\.io\/IM952-big-data\/");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
           // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          window.quartoDecorateExternalLinks = function (root) {
+         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
           for (var i=0; i<links.length; i++) {
             const link = links[i];
             if (!isInternal(link.href)) {
@@ -648,8 +689,69 @@ Matter, Ulrich. 2024. <em>Big Data Analytics: A Guide to Data Science Practition
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+              if (!link.classList.contains('no-external-icon')) {
+              }
             }
           }
+          };
+          window.quartoDecorateExternalLinks(window.document);
+        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+        const hideOnEscAndFocusOut = {
+          name: 'hideOnEscAndFocusOut',
+          defaultValue: true,
+          fn(instance) {
+            const dismiss = () => {
+              // A show scheduled by the trigger delay would otherwise reopen it
+              instance.clearDelayTimeouts();
+              instance.hide();
+            };
+            const onKeyDown = (event) => {
+              if (event.key !== 'Escape') {
+                return;
+              }
+              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+              // except an open reveal.js slide menu, which Esc should close too.
+              // The menu handles keys only when its keyboard option is on.
+              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+                window.Reveal.getConfig().menu?.keyboard !== false;
+              if (!menuHandlesEsc) {
+                event.stopPropagation();
+              }
+              if (instance.popper.contains(window.document.activeElement)) {
+                // Disabled while refocusing so the focus trigger does not reopen it
+                instance.disable();
+                instance.reference.focus();
+                instance.enable();
+              }
+              dismiss();
+            };
+            const onFocusOut = (event) => {
+              const target = event.relatedTarget;
+              if (target && !instance.reference.contains(target) &&
+                  !instance.popper.contains(target)) {
+                dismiss();
+              }
+            };
+            // On the trigger too: a click trigger (code-annotations: select) has no
+            // blur handling. Attached for the instance's lifetime so leaving the
+            // trigger also cancels a show still pending on the trigger delay.
+            instance.reference.addEventListener('focusout', onFocusOut);
+            return {
+              onShow() {
+                window.document.addEventListener('keydown', onKeyDown, true);
+                instance.popper.addEventListener('focusout', onFocusOut);
+              },
+              onHide() {
+                window.document.removeEventListener('keydown', onKeyDown, true);
+                instance.popper.removeEventListener('focusout', onFocusOut);
+              },
+              onDestroy() {
+                instance.reference.removeEventListener('focusout', onFocusOut);
+              },
+            };
+          },
+        };
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
           const config = {
             allowHTML: true,
@@ -663,6 +765,7 @@ Matter, Ulrich. 2024. <em>Big Data Analytics: A Guide to Data Science Practition
             interactiveBorder: 10,
             theme: 'light-border',
             placement: 'bottom-start',
+            plugins: [hideOnEscAndFocusOut],
           };
           if (contentFn) {
             config.content = contentFn;
